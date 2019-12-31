@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/16 17:12:02 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/11/27 07:08:08 by cfauvell         ###   ########.fr       */
+/*   Created: 2018/11/09 17:47:06 by cfauvell          #+#    #+#             */
+/*   Updated: 2018/11/15 13:28:35 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
-# include "Libft/libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <unistd.h>
-
-# define BUFF_SIZE 32
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+/* Checks for an alphabetic character */
+int		ft_isalpha(int c)
+{
+	if (!(c >= 97 && c <= 122) &&
+			!(c >= 65 && c <= 90))
+		return (0);
+	else
+		return (1);
+}

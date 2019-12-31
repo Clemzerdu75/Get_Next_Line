@@ -5,71 +5,76 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/24 16:16:53 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/12/13 17:47:29 by cfauvell         ###   ########.fr       */
+/*   Created: 2018/11/23 08:55:45 by cfauvell          #+#    #+#             */
+/*   Updated: 2018/11/27 07:06:10 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char		*security(int fd, char *str, char **line)
+/* Checks if the parameter of the main function are valid */
+char	*security(int fd, char *str, char **line)
 {
 	if (fd < 0 || line == NULL)
 		return (NULL);
 	if (!str)
 	{
-		if (!(str = ft_strnew(BUFF_SIZE)))
+		if (!(str = ft_strnew(0)))
 			return (NULL);
 	}
 	return (str);
 }
 
-static char	*readfile(const int fd, char *buff, int *ret)
+/* Reads file in BUFF_SIZE-byte packet and stop when it finds a '/n' */
+char	*readline(char *str, int fd)
 {
-	char	tmp[BUFF_SIZE + 1];
-	char	*tmp2;
-
-	*ret = read(fd, tmp, BUFF_SIZE);
-	tmp[*ret] = '\0';
-	tmp2 = buff;
-	if (!(buff = ft_strjoin(buff, tmp)))
-		return (NULL);
-	ft_strdel(&tmp2);
-	return (buff);
-}
-
-int			lastline(char **line, char **buff)
-{
-	if (!(*line = ft_strdup(*buff)))
-		return (-1);
-	ft_bzero(*buff, ft_strlen(*buff));
-	return (1);
-}
-
-int			get_next_line(int const fd, char **line)
-{
-	static char	*buff;
-	int			ret;
-	char		*str;
+	char	buff[BUFF_SIZE + 1];
+	int		ret;
 
 	ret = 1;
-	if (!(buff = security(fd, buff, line)))
-		return (-1);
-	while (ret > 0)
+	while (!(ft_strchr(str, '\n')) && ret > 0)
 	{
-		if ((str = ft_strchr(buff, '\n')) != NULL)
+		ret = read(fd, buff, BUFF_SIZE);
+		if (ret > 0)
 		{
-			*str = '\0';
-			if (!(*line = ft_strdup(buff)))
-				return (-1);
-			ft_memmove(buff, str + 1, ft_strlen(str + 1) + 1);
-			return (1);
+			buff[ret] = '\0';
+			if (!(str = ft_strjoin(str, buff)))
+				return (NULL);
 		}
-		if (!(buff = readfile(fd, buff, &ret)))
-			return (-1);
 	}
-	ft_strdel(&str);
-	if (ret == 0 && ft_strlen(buff))
-		ret = lastline(&(*line), &buff);
-	return (ret);
+	if (ret == -1)
+	{
+		ft_strdel(&str);
+		return (NULL);
+	}
+	return (str);
+}
+
+/* Cut the string received by readline at each '/n', return the string and store all the rest */
+int		get_next_line(int const fd, char **line)
+{
+	static char	*str;
+	int			lcount;
+	char		*tmp;
+
+	if (!(str = security(fd, str, line)))
+		return (-1);
+	if (!(str = readline(str, fd)))
+		return (-1);
+	lcount = 0;
+	if (str[lcount])
+	{
+		lcount = ft_strclen(str, '\n');
+		if (lcount == 0)
+			*line = ft_strdup("");
+		else
+			*line = ft_strndup(str, lcount);
+		tmp = str;
+		str = ft_strdup(&str[lcount + 1]);
+		free(tmp);
+		return (1);
+	}
+	else
+		*line = ft_strdup("");
+	return (0);
 }

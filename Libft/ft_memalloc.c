@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/16 17:12:02 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/11/27 07:08:08 by cfauvell         ###   ########.fr       */
+/*   Created: 2018/11/12 11:02:29 by cfauvell          #+#    #+#             */
+/*   Updated: 2018/11/13 12:53:59 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "Libft/libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <unistd.h>
+/* Allocate and return a fresh memory area */
+void	*ft_memalloc(size_t size)
+{
+	void	*str;
 
-# define BUFF_SIZE 32
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+	if (!(str = (void *)malloc(sizeof(void) * size)))
+		return (0);
+	ft_bzero(str, size);
+	return (str);
+}

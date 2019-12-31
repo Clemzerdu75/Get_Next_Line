@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/16 17:12:02 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/11/27 07:08:08 by cfauvell         ###   ########.fr       */
+/*   Created: 2018/11/09 16:16:20 by cfauvell          #+#    #+#             */
+/*   Updated: 2018/11/17 17:59:57 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
 
-# include "Libft/libft.h"
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-# include <unistd.h>
+/* Finds the first occurrence of the substring ne in the string hk */
+char	*ft_strnstr(const char *hk, const char *ne, size_t len)
+{
+	size_t	i;
+	size_t	j;
 
-# define BUFF_SIZE 32
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+	i = 0;
+	if (*ne == '\0')
+		return ((char *)hk);
+	while (hk[i] && i < len)
+	{
+		j = 0;
+		while (ne[j] == hk[i + j] && (i + j) < len)
+		{
+			if (ne[j + 1] == '\0')
+				return ((char *)(hk + i));
+			j++;
+		}
+		i++;
+	}
+	return (0);
+}
