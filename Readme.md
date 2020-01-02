@@ -12,21 +12,22 @@ Get next line reads a file descriptor line by line (a line ends by a '/n' or the
 
 int     get_next_line(const int fd, char **line)
 
-Get_next_line is a function that returns a line read from a file descriptor.
+    Get_next_line is a function that returns a line read from a file descriptor.
 
-What we call line a succession of characters that end with a "\n" (ascii code 0x0a) or with End of File (EOF).
+    What we call line a succession of characters that end with a "\n" (ascii code 0x0a) or with End of File (EOF).
 
-The first parameter is the file descriptor that will be used to read
-The second parameter is the address of a pointer to a character that will be used
-to save the line read from the file descriptor.
+    The first parameter is the file descriptor that will be used to read.
 
-The return value can be 1, 0 or -1 depending on whether a line has been read,
-when the reading has been completed, or if an error has happened respectively.
+    The second parameter is the address of a pointer to a character that will be used
+    to save the line read from the file descriptor.
 
-get_next_line returns its result without ’\n’.
+    The return value can be 1, 0 or -1 depending on whether a line has been read,
+    when the reading has been completed, or if an error has happened respectively.
 
-In the header file there is a macro named BUFF_SIZE that allows to choose the size of the reading
-buffer for the read function.
+    Get_next_line returns its result without ’\n’.
+
+    In the header file there is a macro named BUFF_SIZE that allows to choose the size of the reading
+    buffer for the read function.
 
 ## How to use it
 
